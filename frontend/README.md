@@ -6,6 +6,7 @@
 <p>The page is divided in 3 parts the components, preview, layout/config stats</p>
 
 Stack:
+
 <ul>
   <li>React - core framework</li>
   <li>Typescript</li>
@@ -20,11 +21,3 @@ Stack:
 </ul>
 
 ![alt text](inspiration.png)
-
-
-
-
-
-
-
-
