@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Elements from "./components/Elements";
+import ElementStat from "./components/ElementStat";
 import TextIcon from "./assets/text-svgrepo-com.svg";
+import StatIcon from "./assets/stats-svgrepo-com.svg";
 import { type IElement } from "./interfaces/elementsType";
 import "./App.css";
 
@@ -51,6 +53,7 @@ function App() {
               html_value="p"
               markdown_value=""
             />
+            <ElementStat title="stat" type="stat" icon={StatIcon} value="Gr33d0"/>
           </div>
         </div>
 
