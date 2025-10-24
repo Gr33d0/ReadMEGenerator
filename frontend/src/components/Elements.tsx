@@ -11,7 +11,10 @@ interface ElementsProps {
 }
 
 export default function Elements({ title, type, icon,value,html_value,markdown_value }: ElementsProps) {
+  
   const addElement = async (elementData: CreateElementDTO): Promise<IElement> => {
+    elementData.html_value = `<${elementData.html_value}>${elementData.value}</${elementData.html_value}>`;
+    elementData.markdown_value = `${markdown_value} ${elementData.value}`;
     const URL = "http://localhost:3000/api/elements/";
        console.log(elementData)
     const response = await fetch(URL, {
