@@ -45,7 +45,7 @@ export default function ElementsImg({ title, type, icon,value }: ElementsProps) 
 
   return (
     <div
-      className="row-pan-1 border border-gray-300 h-full w-percentage"
+      
       onClick={handleClick}
     >
       <img src={icon} width={26} height={26} className="mx-auto my-4" alt={title} />

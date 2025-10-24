@@ -43,7 +43,7 @@ export default function Elements({ title, type, icon,value,html_value,markdown_v
   };
 
   return (
-    <div className="row-pan-1 border border-gray-300 h-full w-percentage" onClick={handleClick}>
+    <div onClick={handleClick}>
       <img src={icon} width={26} height={26}  className="mx-auto my-4" />
       <h2 className="text-xl font-bold mb-4">{title}</h2>
       <p> {value}</p>
