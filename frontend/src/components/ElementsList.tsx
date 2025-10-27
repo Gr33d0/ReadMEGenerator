@@ -16,7 +16,7 @@ export default function ElementsList({
   icon,
   value,
 }: ElementsProps) {
-  const iconMap: Record<string, string> = {
+  const techIconMap: Record<string, string> = {
     javascript: "javascript-original.svg",
     typescript: "typescript-original.svg",
     jest: "jest-plain.svg",
@@ -24,11 +24,18 @@ export default function ElementsList({
     nodejs: "nodejs-original.svg",
     python: "python-original.svg",
   };
+const socialIconMap: Record<string, string> = {
+    linkedin: "linkedin-original.svg",
+    facebook: "facebook-original.svg",
+    twitter: "twitter-original.svg",
+  };
 
   const addElement = async (
     elementData: CreateElementDTO
   ): Promise<IElement> => {
     // Gera o HTML com todas as imagens do array value
+    const iconMap = elementData.title === "techList"? techIconMap:socialIconMap
+    
     const imagesHtml = value
       .map((lang) => {
         const imgPath = iconMap[lang] || "javascript-original.svg";
@@ -36,6 +43,8 @@ export default function ElementsList({
         return `<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${langName}/${imgPath}" height="40"width="40" alt="${langName} logo" /><img width="12" /> `;
       })
       .join(" ");
+
+    
 
     elementData.html_value = `<div style="display:flex;align-items:center;gap:8px;">${imagesHtml}</div>`;
     elementData.markdown_value = elementData.html_value;
