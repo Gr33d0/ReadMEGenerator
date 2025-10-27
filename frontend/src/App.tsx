@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import Elements from "./components/Elements";
 import ElementStat from "./components/ElementStat";
+import ElementsList from "./components/ElementsList";
+
 import TextIcon from "./assets/text-svgrepo-com.svg";
 import StatIcon from "./assets/stats-svgrepo-com.svg";
+import TechIcon from "./assets/chip-component-svgrepo-com.svg"
 import { type IElement } from "./interfaces/elementsType";
 import "./App.css";
+
 
 function App() {
   const [elements, setElements] = useState<IElement[]>([]);
@@ -85,6 +89,9 @@ function App() {
                 icon={StatIcon}
                 value="Gr33d0"
               />
+            </div>
+            <div className="row-pan-1 border border-gray-300 h-full w-percentage" onClick={fetchElements}>
+              <ElementsList title="techList" type="list" icon={TechIcon} value={["javascript","jest"]}/>
             </div>
           </div>
         </div>
