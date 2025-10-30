@@ -1,9 +1,9 @@
-import Element from "../models/element.model.js";
+import List from "../models/element.model.js";
 
 export const getAllElements = async (req, res) => {
   try {
     // Simulate fetching elements from a database
-    const elements = await Element.find();
+    const elements = await List.find();
     res.status(200).json(elements);
   } catch (error) {
     console.error("Error fetching elements:", error);
@@ -13,7 +13,7 @@ export const getAllElements = async (req, res) => {
 
 export const getElementById = async (req, res) => {
   try {
-    const element = await Element.findById(req.params.id);
+    const element = await List.findById(req.params.id);
     if (!element) {
       return res.status(404).json({ message: "Element not found" });
     }
@@ -26,7 +26,7 @@ export const getElementById = async (req, res) => {
 
 export const createElement =  async (req, res) => {
   try {
-    const newElement = await Element.create(req.body);
+    const newElement = await List.create(req.body);
     
     res.status(201).json(newElement);
   } catch (error) {
@@ -38,12 +38,12 @@ export const createElement =  async (req, res) => {
 
 export const updateElement = async (req, res) => {
   try {
-    const element = await Element.findByIdAndUpdate(req.params.id, req.body);
+    const element = await List.findByIdAndUpdate(req.params.id, req.body);
     if (!element) {
       return res.status(404).json({ message: "Element not found" });
     }
 
-    const updatedElement = await Element.findById(req.params.id);
+    const updatedElement = await List.findById(req.params.id);
 
     res.status(200).json(updatedElement);
   } catch (error) {
@@ -54,7 +54,7 @@ export const updateElement = async (req, res) => {
 
 export const deleteElement = async (req, res) => {
   try {
-    const element = await Element.findByIdAndDelete(req.params.id);
+    const element = await List.findByIdAndDelete(req.params.id);
     if (!element) {
       return res.status(404).json({ message: "Element not found" });
     }

@@ -16,6 +16,7 @@ export default function ElementsImg({
   icon,
   value,
 }: ElementsProps) {
+  
   const addElement = async (
     elementData: CreateElementDTO
   ): Promise<IElement> => {

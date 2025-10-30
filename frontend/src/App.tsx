@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Elements from "./components/Elements";
 import ElementStat from "./components/ElementStat";
 import ElementsList from "./components/ElementsList";
-
+import Propwindow from "./components/Propwindow";
 import TextIcon from "./assets/text-svgrepo-com.svg";
 import StatIcon from "./assets/stats-svgrepo-com.svg";
 import TechIcon from "./assets/chip-component-svgrepo-com.svg"
@@ -13,6 +13,7 @@ import "./App.css";
 
 function App() {
   const [elements, setElements] = useState<IElement[]>([]);
+  const [id,setId] = useState(String);
 
   const fetchElements = async () => {
     const URL = "http://localhost:3000/api/elements/";
@@ -66,21 +67,23 @@ function App() {
             <div className="row-pan-1 border border-gray-300 h-full w-percentage" onClick={fetchElements}>
               <Elements
                 title="title"
-                type="title"
+                type="h1"
                 icon={TextIcon}
                 value="titulo"
                 html_value="h1"
                 markdown_value="##"
+                props
               />
             </div>
             <div className="row-pan-1 border border-gray-300 h-full w-percentage" onClick={fetchElements}>
               <Elements
                 title="text"
-                type="text"
+                type="p"
                 icon={TextIcon}
                 value="texto"
                 html_value="p"
                 markdown_value=""
+                props
               />
             </div>
             <div className="row-pan-1 border border-gray-300 h-full w-percentage" onClick={fetchElements}>
@@ -114,6 +117,7 @@ function App() {
                   className="border p-2 rounded"
                   dangerouslySetInnerHTML={{ __html: element.html_value }}
                   onContextMenu={(e) => handleRightClick(element._id,e)}
+                  onClick={()=>setId(element._id)}
                 />
               ))}
             </div>
@@ -123,6 +127,7 @@ function App() {
         {/* Right Section */}
         <div className="col-span-1 border border-gray-300 h-full ">
           <h2 className="text-xl font-bold">Right Section</h2>
+          <Propwindow id={id}/>
         </div>
       </div>
     </>

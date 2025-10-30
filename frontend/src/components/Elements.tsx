@@ -1,20 +1,14 @@
-import { type CreateElementDTO,type IElement} from "../interfaces/elementsType";
-
-
 interface ElementsProps {
   title: string;  // Use primitive 'string' instead of 'String'
   type: string;
   icon: string;
   value: string;
-  html_value: string;
-  markdown_value: string;
 }
 
-export default function Elements({ title, type, icon,value,html_value,markdown_value }: ElementsProps) {
+export default function Elements({ title, type, icon,value}: ElementsProps) {
   
   const addElement = async (elementData: CreateElementDTO): Promise<IElement> => {
-    elementData.html_value = `<${elementData.html_value}>${elementData.value}</${elementData.html_value}>`;
-    elementData.markdown_value = `${markdown_value} ${elementData.value}`;
+    
     const URL = "http://localhost:3000/api/elements/";
        console.log(elementData)
     const response = await fetch(URL, {
@@ -32,7 +26,7 @@ export default function Elements({ title, type, icon,value,html_value,markdown_v
 
   const handleClick = async () => {
     try {
-      await addElement({ title, type, icon,value,html_value,markdown_value });
+      await addElement({ titl, icon,value, align: 'left' });
    
       // Optional: Add success feedback here
     } catch (error) {
@@ -41,6 +35,8 @@ export default function Elements({ title, type, icon,value,html_value,markdown_v
       
     }
   };
+
+  
 
   return (
     <div onClick={handleClick}>

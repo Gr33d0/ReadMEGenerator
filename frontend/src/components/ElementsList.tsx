@@ -76,6 +76,7 @@ const socialIconMap: Record<string, string> = {
         value: value.join(", "), // Converte array para string
         html_value: "",
         markdown_value: "",
+        props: {}
       });
     } catch (error) {
       console.error("Failed to add element:", error);
