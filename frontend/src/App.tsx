@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import Elements from "./components/Elements";
-import ElementStat from "./components/ElementStat";
+
 import ElementsList from "./components/ElementsList";
 import Propwindow from "./components/Propwindow";
 import TextIcon from "./assets/text-svgrepo-com.svg";
@@ -65,40 +64,32 @@ function App() {
           <h2 className="text-xl font-bold ">Left Section</h2>
           <div className="grid grid-cols-2 gap-4 mt-4">
             <div className="row-pan-1 border border-gray-300 h-full w-percentage" onClick={fetchElements}>
-              <Elements
-                title="title"
-                type="h1"
+               <ElementsList
+                name="Text"
+                elements={[{ tagHtml: "h1", tagMarkDown: "##", value: "Titulo" }]}
                 icon={TextIcon}
-                value="titulo"
-                html_value="h1"
-                markdown_value="##"
-                props
               />
             </div>
             <div className="row-pan-1 border border-gray-300 h-full w-percentage" onClick={fetchElements}>
-              <Elements
-                title="text"
-                type="p"
-                icon={TextIcon}
-                value="texto"
-                html_value="p"
-                markdown_value=""
-                props
+              <ElementsList
+                name="Techs"
+                elements={[{ tagHtml: "img", tagMarkDown: "![alt](src)", value: "javascript" },{ tagHtml: "img", tagMarkDown: "![alt](src)", value: "typescript" }]}
+                icon={TechIcon}
               />
             </div>
             <div className="row-pan-1 border border-gray-300 h-full w-percentage" onClick={fetchElements}>
-              <ElementStat
-                title="stat"
-                type="stat"
+              <ElementsList
+                name="Socials"
+                elements={[{ tagHtml: "img", tagMarkDown: "![alt](src)", value: "linkedin" },{ tagHtml: "img", tagMarkDown: "![alt](src)", value: "twitter" }]}
+                icon={SocialIcon}
+              />
+            </div>
+            <div className="row-pan-1 border border-gray-300 h-full w-percentage" onClick={fetchElements}>
+              <ElementsList
+                name="Stats"
+                elements={[{ tagHtml: "img", tagMarkDown: "![alt](src)", value: "github stats" },{ tagHtml: "img", tagMarkDown: "![alt](src)", value: "languages" }]}
                 icon={StatIcon}
-                value="Gr33d0"
               />
-            </div>
-            <div className="row-pan-1 border border-gray-300 h-full w-percentage" onClick={fetchElements}>
-              <ElementsList title="techList" type="list" icon={TechIcon} value={["javascript","jest"]}/>
-            </div>
-            <div className="row-pan-1 border border-gray-300 h-full w-percentage" onClick={fetchElements}>
-              <ElementsList title="SocialList" type="list" icon={SocialIcon} value={["linkedin","facebook"]}/>
             </div>
           </div>
         </div>
