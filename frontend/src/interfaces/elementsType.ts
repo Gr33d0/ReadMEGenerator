@@ -3,13 +3,14 @@ export interface IElement {
   tagHtml: string;
   tagMarkDown: string;
   value: string;
-  align?: 'left' | 'center' | 'right' | string; // pode restringir se quiser
+  
 }
 
 export interface IList {
   _id?: string;
   name: string;
   elements: IElement[];
+  align?: 'left' | 'center' | 'right' | string; // pode restringir se quiser
   user?: string;
   createdAt?: string | Date;
 }

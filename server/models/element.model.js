@@ -4,12 +4,12 @@ const ElementSchema = new mongoose.Schema({
   tagHtml: { type: String, required: true },
   tagMarkDown: { type: String, required: true },
   value: { type: String, required: true },
-  align: { type: String, required: false, default: 'left' },
 }, { _id: true }); // cada elemento tem _id próprio
 
 const ListSchema = new mongoose.Schema({
   name: { type: String, required: true },
   elements: [ElementSchema],
+  align: { type: String, required: false, default: 'left' },
   user: { type: String, required: false , default: "Gr33d0"}, // opcional
   createdAt: { type: Date, default: Date.now }
 });

@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { type IList } from "../interfaces/elementsType";
 
-export default function ShowElements() {
-  const [lists, setLists] = useState<IList[]>([]);
+interface ShowElementsProps {
+  setSelectedId: (id: string) => void;
+}
 
+export default function ShowElements({setSelectedId }: ShowElementsProps) {
+  const [lists, setLists] = useState<IList[]>([]);
+ 
   const fetchElements = async () => {
     const URL = "http://localhost:3000/api/elements/";
     try {
@@ -54,7 +58,7 @@ export default function ShowElements() {
           {lists.map((list) => {
             let htmlVariable = "";
             if (list.name === "Text")
-              htmlVariable = `<${list.elements[0].tagHtml}>${list.elements[0].value}</${list.elements[0].tagHtml}>`;
+              htmlVariable = `<${list.elements[0].tagHtml} style="text-align:${list.align}">${list.elements[0].value}</${list.elements[0].tagHtml}>`;
             if (list.name === "Techs") {
               htmlVariable = list.elements
                 .map(
@@ -98,9 +102,10 @@ export default function ShowElements() {
                 key={list._id!}
                 className="border p-2 rounded "
                 onContextMenu={(e) => handleRightClick(e, list._id!)}
+                onClick={() => setSelectedId(list._id!)}
               >
                 <div
-                  className="flex flex-wrap gap-1 items-center"
+                  
                   dangerouslySetInnerHTML={{ __html: htmlVariable! }}
                 />
               </div>

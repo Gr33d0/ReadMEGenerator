@@ -1,17 +1,25 @@
 
 
 import ElementsList from "./components/ElementsList";
-//import Propwindow from "./components/Propwindow";
+import Propwindow from "./components/Propwindow";
 import TextIcon from "./assets/text-svgrepo-com.svg";
 import StatIcon from "./assets/stats-svgrepo-com.svg";
 import TechIcon from "./assets/chip-component-svgrepo-com.svg"
 import SocialIcon from "./assets/hashtag-square-svgrepo-com.svg"
 import ShowElements from "./components/ShowElements";
 
+import {useState} from "react";
+
+
 import "./App.css";
 
 
+
+
 function App() {
+
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
 
 
   return (
@@ -52,14 +60,14 @@ function App() {
         </div>
 
         {/* Middle Section */}
-        <div className="col-span-1 border border-gray-300 h-full">
-          <ShowElements />
+        <div className="col-span-2 border border-gray-300 h-full">
+          <ShowElements setSelectedId={setSelectedId} />
         </div>
 
         {/* Right Section */}
         <div className="col-span-1 border border-gray-300 h-full ">
           <h2 className="text-xl font-bold">Right Section</h2>
-    
+          <Propwindow selectedId={selectedId} />
         </div>
       </div>
     </>
