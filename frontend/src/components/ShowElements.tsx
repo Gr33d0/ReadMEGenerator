@@ -57,23 +57,27 @@ export default function ShowElements({setSelectedId }: ShowElementsProps) {
         <div className="space-y-2">
           {lists.map((list) => {
             let htmlVariable = "";
+            let styleVariable: React.CSSProperties = {};
             if (list.name === "Text")
               htmlVariable = `<${list.elements[0].tagHtml} style="text-align:${list.align}">${list.elements[0].value}</${list.elements[0].tagHtml}>`;
+              
             if (list.name === "Techs") {
               htmlVariable = list.elements
                 .map(
                   (elem) =>
-                    `<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${elem.value}/${elem.value}-original.svg" alt="${elem.value}" width="26" height="26" />`
+                    `<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${elem.value}/${elem.value}-original.svg" alt="${elem.value}" width="${list.height}" height="${list.height}" />`
                 )
                 .join(" ");
+                styleVariable = { display: 'flex', flexWrap: 'wrap', justifyContent: list.align as React.CSSProperties['justifyContent'], gap: parseInt(list.spacing || '0') };
             }
             if (list.name === "Socials") {
               htmlVariable = list.elements
                 .map(
                   (elem) =>
-                    `<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${elem.value}/${elem.value}-original.svg" alt="${elem.value}" width="26" height="26" />`
+                    `<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${elem.value}/${elem.value}-original.svg" alt="${elem.value}" width="${list.height}" height="${list.height}" />`
                 )
                 .join(" ");
+                styleVariable = { display: 'flex', flexWrap: 'wrap', justifyContent: list.align as React.CSSProperties['justifyContent'], gap: parseInt(list.spacing || '0') };
             }
             if (list.name === "Stats") {
               htmlVariable = list.elements
@@ -100,14 +104,14 @@ export default function ShowElements({setSelectedId }: ShowElementsProps) {
               <div
                 id={list._id!}
                 key={list._id!}
-                className="border p-2 rounded "
+                className="border p-2 rounded"
                 onContextMenu={(e) => handleRightClick(e, list._id!)}
                 onClick={() => setSelectedId(list._id!)}
+                
               >
-                <div
-                  
-                  dangerouslySetInnerHTML={{ __html: htmlVariable! }}
-                />
+               <div dangerouslySetInnerHTML={{ __html: htmlVariable }} style={styleVariable}/>
+                
+            
               </div>
             );
           })}

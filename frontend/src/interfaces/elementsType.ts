@@ -11,6 +11,8 @@ export interface IList {
   name: string;
   elements: IElement[];
   align?: 'left' | 'center' | 'right' | string; // pode restringir se quiser
+  height?: string;
+  spacing?: string;
   user?: string;
   createdAt?: string | Date;
 }

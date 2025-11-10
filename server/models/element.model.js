@@ -10,6 +10,8 @@ const ListSchema = new mongoose.Schema({
   name: { type: String, required: true },
   elements: [ElementSchema],
   align: { type: String, required: false, default: 'left' },
+  height: { type: String, required: false, default: '26' },
+  spacing: { type: String, required: false, default: '12' },
   user: { type: String, required: false , default: "Gr33d0"}, // opcional
   createdAt: { type: Date, default: Date.now }
 });

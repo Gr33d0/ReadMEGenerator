@@ -100,6 +100,25 @@ export default function Propwindow({ selectedId }: PropwindowProps) {
     updateElementById(updatedList); // Atualiza o backend
   };
 
+  const handleHeightChange = (newValue: string) => {
+    if (!list) return;
+    const updatedList: IList = {
+      ...list,
+      height: newValue,
+    };
+    setList(updatedList);
+    updateElementById(updatedList);
+  };
+  const handleSpacingChange = (newValue: string) => {
+    if (!list) return;
+    const updatedList: IList = {
+      ...list,
+      spacing: newValue,
+    };
+    setList(updatedList);
+    updateElementById(updatedList);
+  };
+
   useEffect(() => {
     if (!selectedId) {
       setList(null);
@@ -131,7 +150,10 @@ export default function Propwindow({ selectedId }: PropwindowProps) {
         onChange={(e) => handleTextChange(e.target.value)}
       ></textarea>
       <h3>Tag</h3>
-      <select value={list?.elements[0].tagHtml ?? ""} onChange={(e)=>handleTagChange(e.target.value)}>
+      <select
+        value={list?.elements[0].tagHtml ?? ""}
+        onChange={(e) => handleTagChange(e.target.value)}
+      >
         <option value="p">p</option>
         <option value="h1">h1</option>
         <option value="h2">h2</option>
@@ -140,6 +162,31 @@ export default function Propwindow({ selectedId }: PropwindowProps) {
         <option value="h5">h5</option>
         <option value="h6">h6</option>
       </select>
+      {
+        /* Additional properties for Techs, Socials, Stats could go here */
+        list?.name === "Techs" ||
+        list?.name === "Socials" ||
+        list?.name === "Stats" ? (
+          <>
+            <h3>Height</h3>
+            <textarea
+              className="resize-none"
+              value={list?.height ?? ""}
+              onChange={(e) => handleHeightChange(e.target.value)}
+            ></textarea>
+            <h3>Spacing</h3>
+            <textarea
+              className="resize-none"
+              value={list?.spacing ?? ""}
+              onChange={(e) => handleSpacingChange(e.target.value)}
+            ></textarea>
+            <h3>{list?.name}</h3>
+            {list?.elements?.map((elements) => {
+              return <div key={elements._id}>{elements.value}</div>;
+            })}
+          </>
+        ) : null
+      }
     </div>
   );
 }
