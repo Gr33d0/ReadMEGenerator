@@ -4,6 +4,7 @@ const ElementSchema = new mongoose.Schema({
   tagHtml: { type: String, required: true },
   tagMarkDown: { type: String, required: true },
   value: { type: String, required: true },
+  url: { type: String, required: false },
 }, { _id: true }); // cada elemento tem _id próprio
 
 const ListSchema = new mongoose.Schema({
@@ -15,6 +16,8 @@ const ListSchema = new mongoose.Schema({
   user: { type: String, required: false , default: "Gr33d0"}, // opcional
   createdAt: { type: Date, default: Date.now }
 });
+
+
 
 const List = mongoose.model('List', ListSchema);
 

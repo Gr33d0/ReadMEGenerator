@@ -1,26 +1,16 @@
-
-
 import ElementsList from "./components/ElementsList";
-import Propwindow from "./components/Propwindow";
 import TextIcon from "./assets/text-svgrepo-com.svg";
 import StatIcon from "./assets/stats-svgrepo-com.svg";
-import TechIcon from "./assets/chip-component-svgrepo-com.svg"
-import SocialIcon from "./assets/hashtag-square-svgrepo-com.svg"
+import TechIcon from "./assets/chip-component-svgrepo-com.svg";
+import SocialIcon from "./assets/hashtag-square-svgrepo-com.svg";
 import ShowElements from "./components/ShowElements";
-
-import {useState} from "react";
-
+import { useState } from "react";
 
 import "./App.css";
-
-
-
+import RightSide from "./components/RightSide";
 
 function App() {
-
   const [selectedId, setSelectedId] = useState<string | null>(null);
-
-
 
   return (
     <>
@@ -28,31 +18,61 @@ function App() {
         <div className="col-pan-1 border border-gray-300 h-full">
           <h2 className="text-xl font-bold ">Left Section</h2>
           <div className="grid grid-cols-2 gap-4 mt-4">
-            <div className="row-pan-1 border border-gray-300 h-full w-percentage" >
-               <ElementsList
+            <div className="row-pan-1 border border-gray-300 h-full w-percentage">
+              <ElementsList
                 name="Text"
-                elements={[{ tagHtml: "h1", tagMarkDown: "##", value: "Titulo" }]}
+                elements={[
+                  { tagHtml: "h1", tagMarkDown: "##", value: "Titulo" },
+                ]}
                 icon={TextIcon}
               />
             </div>
-            <div className="row-pan-1 border border-gray-300 h-full w-percentage" >
+            <div className="row-pan-1 border border-gray-300 h-full w-percentage">
               <ElementsList
                 name="Techs"
-                elements={[{ tagHtml: "img", tagMarkDown: "![alt](src)", value: "javascript" },{ tagHtml: "img", tagMarkDown: "![alt](src)", value: "typescript" }]}
+                elements={[
+                  {
+                    tagHtml: "img",
+                    tagMarkDown: "![alt](src)",
+                    value: "javascript",
+                  },
+                  {
+                    tagHtml: "img",
+                    tagMarkDown: "![alt](src)",
+                    value: "typescript",
+                  },
+                ]}
                 icon={TechIcon}
               />
             </div>
-            <div className="row-pan-1 border border-gray-300 h-full w-percentage" >
+            <div className="row-pan-1 border border-gray-300 h-full w-percentage">
               <ElementsList
                 name="Socials"
-                elements={[{ tagHtml: "img", tagMarkDown: "![alt](src)", value: "linkedin" },{ tagHtml: "img", tagMarkDown: "![alt](src)", value: "twitter" }]}
+                elements={[
+                  {
+                    tagHtml: "img",
+                    tagMarkDown: "![alt](src)",
+                    value: "linkedin",
+                  },
+                  {
+                    tagHtml: "img",
+                    tagMarkDown: "![alt](src)",
+                    value: "twitter",
+                  },
+                ]}
                 icon={SocialIcon}
               />
             </div>
             <div className="row-pan-1 border border-gray-300 h-full w-percentage">
               <ElementsList
                 name="Stats"
-                elements={[{ tagHtml: "img", tagMarkDown: "![alt](src)", value: "activity" }]}
+                elements={[
+                  {
+                    tagHtml: "img",
+                    tagMarkDown: "![alt](src)",
+                    value: "activity",
+                  },
+                ]}
                 icon={StatIcon}
               />
             </div>
@@ -65,9 +85,11 @@ function App() {
         </div>
 
         {/* Right Section */}
-        <div className="col-span-1 border border-gray-300 h-full ">
+        <div className="col-span-1 border border-gray-300 h-full">
           <h2 className="text-xl font-bold">Right Section</h2>
-          <Propwindow selectedId={selectedId} />
+          <RightSide selectedId={selectedId} />
+
+
         </div>
       </div>
     </>

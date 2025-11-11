@@ -3,7 +3,7 @@ export interface IElement {
   tagHtml: string;
   tagMarkDown: string;
   value: string;
-  
+  url?: string;
 }
 
 export interface IList {

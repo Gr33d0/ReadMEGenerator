@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import elementRoutes from "./routes/elements.routes.js";
+import iconRoutes from "./routes/icon.routes.js";
 
 // Load environment variables
 dotenv.config();
@@ -33,6 +34,7 @@ mongoose
 
 // Routes
 app.use("/api/elements", elementRoutes);
+app.use("/api/icons", iconRoutes);
 
 // Health check route
 app.get("/", (req, res) => {

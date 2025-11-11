@@ -3,27 +3,14 @@ import { useEffect, useState } from "react";
 
 interface PropwindowProps {
   selectedId: string | null;
+  list: IList | null;
 }
 
-export default function Propwindow({ selectedId }: PropwindowProps) {
-  const [list, setList] = useState<IList | null>(null);
+export default function Propwindow({ selectedId, list }: PropwindowProps) {
+  const [localList, setLocalList] = useState<IList | null>(null); 
 
-  const fetchElementById = async () => {
-    if (!selectedId) return;
-    const URL = `http://localhost:3000/api/elements/${selectedId}`;
-    try {
-      const response = await fetch(URL, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
-      const data = await response.json();
-      setList(data);
-    } catch (error) {
-      console.error("Failed to fetch elements:", error);
-    }
-  };
+
+
 
   // agora aceita um parâmetro com os dados a actualizar — evita usar estado obsoleto
   const updateElementById = async (updatedList: IList | null) => {
@@ -47,8 +34,8 @@ export default function Propwindow({ selectedId }: PropwindowProps) {
         throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.json();
       console.log("Element updated:", data);
-      // opcional: setList(data) se o servidor retorna o objecto actualizado
-      // setList(data);
+      // opcional: setLocalList(data) se o servidor retorna o objecto actualizado
+      // setLocalList(data);
     } catch (error) {
       console.error("Failed to update element:", error);
     }
@@ -57,74 +44,74 @@ export default function Propwindow({ selectedId }: PropwindowProps) {
   const handleAlignChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     // cria novo objecto a partir do estado actual (pode ser null)
     const newAlign = e.target.value as IList["align"];
-    const newList: IList = { ...(list ?? ({} as IList)), align: newAlign };
-    setList(newList);
+    const newList: IList = { ...(localList ?? ({} as IList)), align: newAlign };
+    setLocalList(newList);
     // envia o objecto que acabámos de criar (não confiar no estado imediato)
     updateElementById(newList);
   };
 
   const handleTextChange = (newValue: string) => {
-    if (!list) return;
+    if (!localList) return;
 
     // Cria novo objeto de list com apenas o valor alterado
     const updatedList: IList = {
-      ...list,
+      ...localList,
       elements: [
         {
-          ...list.elements[0],
+          ...localList.elements[0],
           value: newValue,
         },
       ],
     };
 
-    setList(updatedList);
+    setLocalList(updatedList);
     updateElementById(updatedList); // Atualiza o backend
   };
 
   const handleTagChange = (newValue: string) => {
-    if (!list) return;
+    if (!localList) return;
 
     // Cria novo objeto de list com apenas o valor alterado
     const updatedList: IList = {
-      ...list,
+      ...localList,
       elements: [
         {
-          ...list.elements[0],
+          ...localList.elements[0],
           tagHtml: newValue,
           tagMarkDown: newValue,
         },
       ],
     };
 
-    setList(updatedList);
+    setLocalList(updatedList);
     updateElementById(updatedList); // Atualiza o backend
   };
 
   const handleHeightChange = (newValue: string) => {
-    if (!list) return;
+    if (!localList) return;
     const updatedList: IList = {
-      ...list,
+      ...localList,
       height: newValue,
     };
-    setList(updatedList);
+    setLocalList(updatedList);
     updateElementById(updatedList);
   };
   const handleSpacingChange = (newValue: string) => {
-    if (!list) return;
+    if (!localList) return;
     const updatedList: IList = {
-      ...list,
+      ...localList,
       spacing: newValue,
     };
-    setList(updatedList);
+    setLocalList(updatedList);
     updateElementById(updatedList);
   };
 
   useEffect(() => {
     if (!selectedId) {
-      setList(null);
+      setLocalList(null);
       return;
     }
-    fetchElementById();
+    setLocalList(list);
   }, [selectedId]);
 
   return (
@@ -133,10 +120,10 @@ export default function Propwindow({ selectedId }: PropwindowProps) {
       <h3>Layout</h3>
       <h3>Align</h3>
       <select
-        value={list?.align ?? ""}
+        value={localList?.align ?? ""}
         onChange={handleAlignChange}
         id="align"
-        disabled={!list} // evita interacção antes de carregar
+        disabled={!localList} // evita interacção antes de carregar
       >
         <option value="right">right</option>
         <option value="center">center</option>
@@ -146,12 +133,12 @@ export default function Propwindow({ selectedId }: PropwindowProps) {
       <p>Text</p>
       <textarea
         className="resize-none"
-        value={list?.elements[0].value ?? ""}
+        value={localList?.elements[0].value ?? ""}
         onChange={(e) => handleTextChange(e.target.value)}
       ></textarea>
       <h3>Tag</h3>
       <select
-        value={list?.elements[0].tagHtml ?? ""}
+        value={localList?.elements[0].tagHtml ?? ""}
         onChange={(e) => handleTagChange(e.target.value)}
       >
         <option value="p">p</option>
@@ -164,24 +151,24 @@ export default function Propwindow({ selectedId }: PropwindowProps) {
       </select>
       {
         /* Additional properties for Techs, Socials, Stats could go here */
-        list?.name === "Techs" ||
-        list?.name === "Socials" ||
-        list?.name === "Stats" ? (
+        localList?.name === "Techs" ||
+        localList?.name === "Socials" ||
+        localList?.name === "Stats" ? (
           <>
             <h3>Height</h3>
             <textarea
               className="resize-none"
-              value={list?.height ?? ""}
+              value={localList?.height ?? ""}
               onChange={(e) => handleHeightChange(e.target.value)}
             ></textarea>
             <h3>Spacing</h3>
             <textarea
               className="resize-none"
-              value={list?.spacing ?? ""}
+              value={localList?.spacing ?? ""}
               onChange={(e) => handleSpacingChange(e.target.value)}
             ></textarea>
-            <h3>{list?.name}</h3>
-            {list?.elements?.map((elements) => {
+            <h3>{localList?.name}</h3>
+            {localList?.elements?.map((elements) => {
               return <div key={elements._id}>{elements.value}</div>;
             })}
           </>
