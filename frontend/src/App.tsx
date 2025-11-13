@@ -20,16 +20,16 @@ function App() {
           <div className="grid grid-cols-2 gap-4 mt-4">
             <div className="row-pan-1 border border-gray-300 h-full w-percentage">
               <ElementsList
-                name="Text"
+                name="text"
                 elements={[
-                  { tagHtml: "h1", tagMarkDown: "##", value: "Titulo" },
+                  { tagHtml: "h1", tagMarkDown: "##", value: "titulo" },
                 ]}
                 icon={TextIcon}
               />
             </div>
             <div className="row-pan-1 border border-gray-300 h-full w-percentage">
               <ElementsList
-                name="Techs"
+                name="techs"
                 elements={[
                   {
                     tagHtml: "img",
@@ -47,7 +47,7 @@ function App() {
             </div>
             <div className="row-pan-1 border border-gray-300 h-full w-percentage">
               <ElementsList
-                name="Socials"
+                name="socials"
                 elements={[
                   {
                     tagHtml: "img",

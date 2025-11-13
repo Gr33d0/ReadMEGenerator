@@ -59,3 +59,13 @@ export const deleteIcon = async (req, res) => {
      }
  };
 
+ export const fetchIconsByCategory = async (req, res) => {
+    try {
+        const icons = await Icon.find({ category: req.params.category });
+        res.status(200).json(icons);
+    } catch (error) {
+        console.error("Error fetching icons by category:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+

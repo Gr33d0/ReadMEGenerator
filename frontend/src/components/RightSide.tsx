@@ -40,7 +40,7 @@ export default function RightSide({ selectedId }: RightSideProps) {
   return (
     <>
       <div className="grid grid-cols-2 gap-4">
-        {list?.name === "Techs" || list?.name === "Socials" ? (
+        {list?.name === "techs" || list?.name === "socials" ? (
           <div
             className={activeTab === "icons" ? "font-bold" : ""}
             onClick={() => setActiveTab("icons")}
@@ -58,7 +58,7 @@ export default function RightSide({ selectedId }: RightSideProps) {
       </div>
       {activeTab === "icons" ?  (
         
-        <AddWindow selectedId={selectedId} list={list} />
+        <AddWindow selectedId={selectedId} list={list}  />
       ) : (
         <Propwindow selectedId={selectedId} list={list} />
       )}

@@ -58,10 +58,10 @@ export default function ShowElements({setSelectedId }: ShowElementsProps) {
           {lists.map((list) => {
             let htmlVariable = "";
             let styleVariable: React.CSSProperties = {};
-            if (list.name === "Text")
+            if (list.name === "text")
               htmlVariable = `<${list.elements[0].tagHtml} style="text-align:${list.align}">${list.elements[0].value}</${list.elements[0].tagHtml}>`;
               
-            if (list.name === "Techs") {
+            if (list.name === "techs") {
               htmlVariable = list.elements
                 .map(
                   (elem) =>
@@ -70,7 +70,7 @@ export default function ShowElements({setSelectedId }: ShowElementsProps) {
                 .join(" ");
                 styleVariable = { display: 'flex', flexWrap: 'wrap', justifyContent: list.align as React.CSSProperties['justifyContent'], gap: parseInt(list.spacing || '0') };
             }
-            if (list.name === "Socials") {
+            if (list.name === "socials") {
               htmlVariable = list.elements
                 .map(
                   (elem) =>
@@ -79,7 +79,7 @@ export default function ShowElements({setSelectedId }: ShowElementsProps) {
                 .join(" ");
                 styleVariable = { display: 'flex', flexWrap: 'wrap', justifyContent: list.align as React.CSSProperties['justifyContent'], gap: parseInt(list.spacing || '0') };
             }
-            if (list.name === "Stats") {
+            if (list.name === "stats") {
               htmlVariable = list.elements
                 .map((elem) => {
                   if (elem.value === "github stats") {

@@ -1,5 +1,5 @@
-import { type IElement, type IList } from "../interfaces/elementsType";
-import {type IIcon} from "../interfaces/iconsType";
+import { type IList } from "../interfaces/elementsType";
+import { type IIcon } from "../interfaces/iconsType";
 import { useEffect, useState } from "react";
 
 interface AddWindowProps {
@@ -7,27 +7,30 @@ interface AddWindowProps {
   list: IList | null;
 }
 
-export default function AddWindow({ selectedId , list}: AddWindowProps) {
+export default function AddWindow({ selectedId, list }: AddWindowProps) {
   const [localList, setLocalList] = useState<IList | null>(null);
-  const [icons, setIcons] = useState<IIcon[]| null>(null);
+  const [icons, setIcons] = useState<IIcon[] | null>(null);
 
-
-
-  const fetchIcons = async () => {
-    const URL = `http://localhost:3000/api/icons`;
+  // agora recebe category como argumento para evitar problemas com closures
+  const fetchIconsByCategory = async (category?: string) => {
+    if (!category) {
+      setIcons(null);
+      return;
+    }
+    const URL = `http://localhost:3000/api/icons/category/${category}`;
     try {
-        const response = await fetch(URL, {
+      const response = await fetch(URL, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
-        if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
-        const data = await response.json();
-
-        console.log("Fetched icons:", data);
-        setIcons(data);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await response.json();
+      console.log("Fetched icons:", data);
+      console.log("Category:", category);
+      setIcons(data);
     } catch (error) {
       console.error("Failed to fetch icons:", error);
+      setIcons(null);
     }
   };
 
@@ -48,64 +51,64 @@ export default function AddWindow({ selectedId , list}: AddWindowProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedList),
       });
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.json();
       console.log("Element updated:", data);
-      // opcional: setLocalList(data) se o servidor retorna o objecto actualizado
-      // setLocalList(data);
+      // Se o servidor devolver o objecto actualizado, podes setLocalList(data) aqui
     } catch (error) {
       console.error("Failed to update element:", error);
     }
   };
-const handleClick = (iconName: string) => {
 
+  const handleClick = (iconName: string) => {
     if (!localList || !icons) return;
     const selectedIcon = icons.find((icon) => icon.name === iconName);
     if (!selectedIcon) return;
-    // Cria novo objeto de list com apenas o valor alterado
-    localList.elements.push({
-        tagHtml: "img",
-        tagMarkDown: "![alt](src)",
-        value: selectedIcon.name,
-        url: selectedIcon.url,
-    });
 
-    
+    // criar novo objeto imutável em vez de mutar localList
+    const newElement = {
+      tagHtml: "img",
+      tagMarkDown: "![alt](src)",
+      value: selectedIcon.name,
+      url: selectedIcon.url,
+    };
 
-    updateElementById(localList);
+    const newList: IList = {
+      ...localList,
+      elements: [...(localList.elements ?? []), newElement],
+    };
+
+    // atualiza estado local e envia ao servidor
+    setLocalList(newList);
+    updateElementById(newList);
   };
 
-
-
-
-
+  // agora dependemos tanto de selectedId quanto da categoria (list?.name)
   useEffect(() => {
     if (!selectedId) {
       setLocalList(null);
+      setIcons(null);
       return;
     }
-    setLocalList(list);
 
-    fetchIcons();
-  }, [selectedId]);
+    // sincroniza localList com a prop (se mudou)
+    setLocalList(list ?? null);
+
+    // busca ícones para a categoria actual (ou limpa se não houver)
+    fetchIconsByCategory(list?.name);
+  }, [selectedId, list?.name]);
 
   return (
     <>
-    <h3>Search bar</h3>
-    <div>Icons</div>
-    <div className="grid grid-cols-3 gap-4 justify-items-center overflow-y-auto">
-    {
-        icons?.map((icon) => (
-          
-            <div key={icon.name} onClick={() =>handleClick(icon.name)} >
-                <img id={icon.name} src={icon.url} alt={icon.name} width={50} height={50}  />
-            </div>
-        ))
-    }
-    </div>
-
+      <h3>Search bar</h3>
+      <div>Icons {list?.name}</div>
+      <div className="grid grid-cols-3 gap-4 justify-items-center overflow-y-auto">
+        {icons?.map((icon) => (
+          <div key={icon.name} onClick={() => handleClick(icon.name)}>
+            <img id={icon.name} src={icon.url} alt={icon.name} width={50} height={50} />
+          </div>
+        ))}
+      </div>
     </>
-     
   );
 }

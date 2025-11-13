@@ -5,6 +5,7 @@ import {
   createIcon,
   editIcon,
   deleteIcon,
+  fetchIconsByCategory
 
 } from "../controllers/icon.controller.js";
 
@@ -14,6 +15,8 @@ const router = express.Router();
 router.get("/", getAllIcons);
 // GET icon by ID
 router.get("/:id", getIconById);
+// GET icons by category
+router.get("/category/:category", fetchIconsByCategory);
 // POST create new icon
 router.post("/", createIcon);
 // PUT update icon by ID
