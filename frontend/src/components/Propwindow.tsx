@@ -1,5 +1,5 @@
 import { type IList } from "../interfaces/elementsType";
-import {useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 
 interface PropwindowProps {
   selectedId: string | null;
@@ -9,7 +9,7 @@ interface PropwindowProps {
 export default function Propwindow({ selectedId, list }: PropwindowProps) {
   const [localList, setLocalList] = useState<IList | null>(null);
 
-  const dragElement =  useRef<number | null>(0);
+  const dragElement = useRef<number | null>(0);
   const dragOverElement = useRef<number | null>(0);
 
   // Garante que o objecto tem um array elements com pelo menos um elemento (evita undefined)
@@ -129,9 +129,17 @@ export default function Propwindow({ selectedId, list }: PropwindowProps) {
     const temp = elementClone[dragElement.current!];
     elementClone[dragElement.current!] = elementClone[dragOverElement.current!];
     elementClone[dragOverElement.current!] = temp;
-    setLocalList({...localList!, elements: elementClone});
-    updateElementById({...localList!, elements: elementClone});
-  }
+    setLocalList({ ...localList!, elements: elementClone });
+    updateElementById({ ...localList!, elements: elementClone });
+  };
+
+  const handleRemoveElement = (index: number) => {
+    if (!localList) return;
+    const updatedElements = localList.elements.filter((_, i) => i !== index);
+    const updatedList: IList = { ...localList, elements: updatedElements };
+    setLocalList(updatedList);
+    updateElementById(updatedList);
+  };
 
   // Sincroniza localList sempre que a lista prop (categoria) ou selectedId mudar
   useEffect(() => {
@@ -207,25 +215,29 @@ export default function Propwindow({ selectedId, list }: PropwindowProps) {
 
           <h3>{localList?.name}</h3>
 
-
-              {localList?.elements?.map((element, index) => {
-                return (
-                  <div
-                    key={element._id ?? element.value}
-                    className="relative flex space-x-3 border rounded p-2"
-                    draggable
-                    onDragStart={()=>(dragElement.current = index)}
-                    onDragEnter={()=>(dragOverElement.current = index)}
-                    onDragEnd={handleSort}
-                    onDragOver={(e)=>(e.preventDefault())}
-                  >
-                    {index}
+          {localList?.elements?.map((element, index) => {
+            return (
+              <div
+                key={element._id ?? element.value}
+                className=" grid grid-cols-3 gap-4 relative flex space-x-3 border rounded p-2"
+                draggable
+                onDragStart={() => (dragElement.current = index)}
+                onDragEnter={() => (dragOverElement.current = index)}
+                onDragEnd={handleSort}
+                onDragOver={(e) => e.preventDefault()}
+              >
+                <div className="col-span-2 ">
+                  <p id={`icon${index}`}>
+          
                     {element.value}
-                  </div>
-                );
-              })}
-
-    
+                  </p>
+                </div>
+                <div className="col-span-1" onClick={() => handleRemoveElement(index)}>
+                  <span>E</span>
+                </div>
+              </div>
+            );
+          })}
         </>
       )}
     </div>
