@@ -3,6 +3,7 @@ import Propwindow from "./Propwindow";
 
 import { type IList } from "../interfaces/elementsType";
 import { useEffect, useState } from "react";
+import StatLayout from "./StatLayout";
 
 interface RightSideProps {
   selectedId: string | null;
@@ -37,31 +38,63 @@ export default function RightSide({ selectedId }: RightSideProps) {
     fetchElementById();
   }, [selectedId]);
 
-  return (
-    <>
-      <div className="grid grid-cols-2 gap-4">
-        {list?.name === "techs" || list?.name === "socials" ? (
+  if (
+    list?.name === "techs" ||
+    list?.name === "socials" ||
+    list?.name === "text"
+  ) {
+    return (
+      <>
+        <div className="grid grid-cols-2 gap-4">
+          {list?.name === "techs" || list?.name === "socials" ? (
+            <div
+              className={activeTab === "icons" ? "font-bold" : ""}
+              onClick={() => setActiveTab("icons")}
+            >
+              Icons
+            </div>
+          ) : null}
+
+          <div
+            className={activeTab === "edit" ? "font-bold" : ""}
+            onClick={() => setActiveTab("edit")}
+          >
+            Edit
+          </div>
+        </div>
+        {activeTab === "icons" ? (
+          <AddWindow selectedId={selectedId} list={list} />
+        ) : (
+          <Propwindow selectedId={selectedId} list={list} />
+        )}
+      </>
+    );
+  } else {
+    return (
+      <>
+        <div className="grid grid-cols-2 gap-4">
           <div
             className={activeTab === "icons" ? "font-bold" : ""}
             onClick={() => setActiveTab("icons")}
           >
-            Icons
+            Layout
           </div>
-        ) : null}
-
-        <div
-          className={activeTab === "edit" ? "font-bold" : ""}
-          onClick={() => setActiveTab("edit")}
-        >
-          Edit
+          <div
+            className={activeTab === "edit" ? "font-bold" : ""}
+            onClick={() => setActiveTab("edit")}
+          >
+            Edit
+          </div>
+          {activeTab === "icons" ? (
+            <>
+              <StatLayout selectedId={selectedId} list={list} />
+              {console.log("Rendering StatLayout", { selectedId, list })}
+            </>
+          ) : (
+            <Propwindow selectedId={selectedId} list={list} />
+          )}
         </div>
-      </div>
-      {activeTab === "icons" ?  (
-        
-        <AddWindow selectedId={selectedId} list={list}  />
-      ) : (
-        <Propwindow selectedId={selectedId} list={list} />
-      )}
-    </>
-  );
+      </>
+    );
+  }
 }

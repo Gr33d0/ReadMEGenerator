@@ -65,12 +65,32 @@ function App() {
             </div>
             <div className="row-pan-1 border border-gray-300 h-full w-percentage">
               <ElementsList
-                name="Stats"
+                name="stats"
                 elements={[
                   {
                     tagHtml: "img",
                     tagMarkDown: "![alt](src)",
+                    value: "languages",
+                  },
+                  {
+                    tagHtml: "img",
+                    tagMarkDown: "![alt](src)",
+                    value: "streak",
+                  },
+                  {
+                    tagHtml: "img",
+                    tagMarkDown: "![alt](src)",
+                    value: "throphy",
+                  },
+                  {
+                    tagHtml: "img",
+                    tagMarkDown: "![alt](src)",
                     value: "activity",
+                  },
+                  {
+                    tagHtml: "img",
+                    tagMarkDown: "![alt](src)",
+                    value: "stats",
                   },
                 ]}
                 icon={StatIcon}

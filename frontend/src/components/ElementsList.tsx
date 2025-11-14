@@ -17,19 +17,7 @@ export default function ElementsList({
   elements,
   icon,
 }: ElementsProps) {
-/*const techIconMap: Record<string, string> = {
-    javascript: "javascript-original.svg",
-    typescript: "typescript-original.svg",
-    jest: "jest-plain.svg",
-    react: "react-original.svg",
-    nodejs: "nodejs-original.svg",
-    python: "python-original.svg",
-  };
-const socialIconMap: Record<string, string> = {
-    linkedin: "linkedin-original.svg",
-    facebook: "facebook-original.svg",
-    twitter: "twitter-original.svg",
-  };*/
+
 
   const handleClick = async () => {
     const newList: IList = {
