@@ -1,6 +1,8 @@
 import { type IList } from "../interfaces/elementsType";
 import { type IIcon } from "../interfaces/iconsType";
+
 import { useEffect, useState } from "react";
+
 
 interface AddWindowProps {
   selectedId: string | null;
@@ -10,6 +12,8 @@ interface AddWindowProps {
 export default function AddWindow({ selectedId, list }: AddWindowProps) {
   const [localList, setLocalList] = useState<IList | null>(null);
   const [icons, setIcons] = useState<IIcon[] | null>(null);
+
+
 
   // agora recebe category como argumento para evitar problemas com closures
   const fetchIconsByCategory = async (category?: string) => {
@@ -81,6 +85,7 @@ export default function AddWindow({ selectedId, list }: AddWindowProps) {
     // atualiza estado local e envia ao servidor
     setLocalList(newList);
     updateElementById(newList);
+    window.dispatchEvent(new CustomEvent("refreshShowElements"));
   };
 
   // agora dependemos tanto de selectedId quanto da categoria (list?.name)

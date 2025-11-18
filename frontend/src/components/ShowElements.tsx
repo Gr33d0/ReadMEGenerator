@@ -1,8 +1,14 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { type IList } from "../interfaces/elementsType";
+
+
+export interface ShowElementsHandle {
+  refresh: () => void;
+}
 
 interface ShowElementsProps {
   setSelectedId: (id: string) => void;
+  
 }
 
 export default function ShowElements({ setSelectedId }: ShowElementsProps) {
@@ -44,6 +50,12 @@ export default function ShowElements({ setSelectedId }: ShowElementsProps) {
 
   useEffect(() => {
     fetchElements();
+     const handleRefresh = () => fetchElements();
+    window.addEventListener("refreshShowElements", handleRefresh);
+
+    return () => {
+      window.removeEventListener("refreshShowElements", handleRefresh);
+    };
   }, []);
 
   return (

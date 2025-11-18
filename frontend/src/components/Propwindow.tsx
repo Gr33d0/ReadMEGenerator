@@ -66,6 +66,7 @@ export default function Propwindow({ selectedId, list }: PropwindowProps) {
     const newList: IList = { ...base, align: newAlign };
     setLocalList(newList);
     updateElementById(newList);
+    window.dispatchEvent(new CustomEvent("refreshShowElements"));
   };
 
   const handleTextChange = (newValue: string) => {
@@ -84,6 +85,7 @@ export default function Propwindow({ selectedId, list }: PropwindowProps) {
     const updatedList: IList = { ...base, elements: updatedElements };
     setLocalList(updatedList);
     updateElementById(updatedList);
+    window.dispatchEvent(new CustomEvent("refreshShowElements"));
   };
 
   const handleTagChange = (newValue: string) => {
@@ -102,6 +104,7 @@ export default function Propwindow({ selectedId, list }: PropwindowProps) {
     const updatedList: IList = { ...base, elements: updatedElements };
     setLocalList(updatedList);
     updateElementById(updatedList);
+    window.dispatchEvent(new CustomEvent("refreshShowElements"));
   };
 
   const handleHeightChange = (newValue: string) => {
@@ -112,6 +115,7 @@ export default function Propwindow({ selectedId, list }: PropwindowProps) {
     };
     setLocalList(updatedList);
     updateElementById(updatedList);
+    window.dispatchEvent(new CustomEvent("refreshShowElements"));
   };
 
   const handleSpacingChange = (newValue: string) => {
@@ -122,6 +126,7 @@ export default function Propwindow({ selectedId, list }: PropwindowProps) {
     };
     setLocalList(updatedList);
     updateElementById(updatedList);
+    window.dispatchEvent(new CustomEvent("refreshShowElements"));
   };
 
   const handleSort = () => {
@@ -131,6 +136,7 @@ export default function Propwindow({ selectedId, list }: PropwindowProps) {
     elementClone[dragOverElement.current!] = temp;
     setLocalList({ ...localList!, elements: elementClone });
     updateElementById({ ...localList!, elements: elementClone });
+    window.dispatchEvent(new CustomEvent("refreshShowElements"));
   };
 
   const handleRemoveElement = (index: number) => {
@@ -139,6 +145,7 @@ export default function Propwindow({ selectedId, list }: PropwindowProps) {
     const updatedList: IList = { ...localList, elements: updatedElements };
     setLocalList(updatedList);
     updateElementById(updatedList);
+    window.dispatchEvent(new CustomEvent("refreshShowElements"));
   };
 
   // Sincroniza localList sempre que a lista prop (categoria) ou selectedId mudar
@@ -168,7 +175,7 @@ export default function Propwindow({ selectedId, list }: PropwindowProps) {
         <option value="center">center</option>
         <option value="left">left</option>
       </select>
-      {localList?.name === "text" || localList?.name === "stats" ? (
+      {localList?.name === "text" ?(
         <>
           <h3>Content</h3>
           <p>Text</p>
@@ -195,7 +202,7 @@ export default function Propwindow({ selectedId, list }: PropwindowProps) {
             <option value="h6">h6</option>
           </select>
         </>
-      ) : (
+      ) : localList?.name === "techs" || localList?.name === "socials" ? (
         <>
           <h3>Height</h3>
           <textarea
@@ -239,7 +246,7 @@ export default function Propwindow({ selectedId, list }: PropwindowProps) {
             );
           })}
         </>
-      )}
+      ):null}
     </div>
   );
 }

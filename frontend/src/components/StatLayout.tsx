@@ -57,6 +57,7 @@ export default function StatLayout({ selectedId, list }: StatLayoutProps) {
 
   setLocalList(updatedList);
   updateElementById(updatedList);
+  window.dispatchEvent(new CustomEvent("refreshShowElements"));
 };
 
   // Troca elementos no array
@@ -67,6 +68,7 @@ export default function StatLayout({ selectedId, list }: StatLayoutProps) {
     elementClone[dragOverElement.current!] = temp;
     setLocalList({ ...localList!, elements: elementClone });
     updateElementById({ ...localList!, elements: elementClone });
+    window.dispatchEvent(new CustomEvent("refreshShowElements"));
   };
   // Sincroniza localList com props
   useEffect(() => {

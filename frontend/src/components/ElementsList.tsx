@@ -40,11 +40,12 @@ export default function ElementsList({
 
       const data = await response.json();
       console.log("Lista adicionada com sucesso:", data);
-      alert("Lista adicionada com sucesso!");
+      window.dispatchEvent(new CustomEvent("refreshShowElements"));
+
     } catch (error) {
       console.error("Erro ao adicionar lista:", error);
-      alert("Erro ao adicionar lista!");
     }
+
   };
 
     return (
