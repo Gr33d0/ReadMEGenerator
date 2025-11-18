@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const ElementSchema = new mongoose.Schema({
   tagHtml: { type: String, required: true },
   tagMarkDown: { type: String, required: true },
   value: { type: String, required: true },
   url: { type: String, required: false },
+  show:{type: Boolean , required: false},
 }, { _id: true }); // cada elemento tem _id próprio
 
 const ListSchema = new mongoose.Schema({

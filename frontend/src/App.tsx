@@ -71,26 +71,25 @@ function App() {
                     tagHtml: "img",
                     tagMarkDown: "![alt](src)",
                     value: "languages",
+                    show: true
                   },
                   {
                     tagHtml: "img",
                     tagMarkDown: "![alt](src)",
                     value: "streak",
-                  },
-                  {
-                    tagHtml: "img",
-                    tagMarkDown: "![alt](src)",
-                    value: "throphy",
+                    show: true
                   },
                   {
                     tagHtml: "img",
                     tagMarkDown: "![alt](src)",
                     value: "activity",
+                    show: true
                   },
                   {
                     tagHtml: "img",
                     tagMarkDown: "![alt](src)",
                     value: "stats",
+                    show: false
                   },
                 ]}
                 icon={StatIcon}

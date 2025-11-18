@@ -91,7 +91,8 @@ export default function ShowElements({ setSelectedId }: ShowElementsProps) {
                   const v = elem.value;
                   if (!v) return "";
                   const user = encodeURIComponent(list.user || "");
-                  switch (v) {
+                  if (elem.show == true){
+                    switch (v) {
                     case "stats":
                       return `<img src="https://github-readme-stats.vercel.app/api?username=${user}&hide_title=false&show_icons=true&count_private=true&theme=dracula" height="150" alt="github stats" />`;
                     case "languages":
@@ -105,6 +106,9 @@ export default function ShowElements({ setSelectedId }: ShowElementsProps) {
                     default:
                       return "";
                   }
+                  }
+                  else null
+                  
                 })
                 .join(" ");
               styleVariable = {

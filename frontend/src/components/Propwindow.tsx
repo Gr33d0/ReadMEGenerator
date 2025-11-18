@@ -168,7 +168,7 @@ export default function Propwindow({ selectedId, list }: PropwindowProps) {
         <option value="center">center</option>
         <option value="left">left</option>
       </select>
-      {localList?.name === "text" ? (
+      {localList?.name === "text" || localList?.name === "stats" ? (
         <>
           <h3>Content</h3>
           <p>Text</p>
@@ -227,12 +227,12 @@ export default function Propwindow({ selectedId, list }: PropwindowProps) {
                 onDragOver={(e) => e.preventDefault()}
               >
                 <div className="col-span-2 ">
-                  <p id={`icon${index}`}>
-          
-                    {element.value}
-                  </p>
+                  <p id={`icon${index}`}>{element.value}</p>
                 </div>
-                <div className="col-span-1" onClick={() => handleRemoveElement(index)}>
+                <div
+                  className="col-span-1"
+                  onClick={() => handleRemoveElement(index)}
+                >
                   <span>E</span>
                 </div>
               </div>

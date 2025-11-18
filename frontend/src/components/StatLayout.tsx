@@ -9,11 +9,10 @@ interface StatLayoutProps {
 export default function StatLayout({ selectedId, list }: StatLayoutProps) {
   const [localList, setLocalList] = useState<IList | null>(null);
 
-  // Refs para drag-and-drop
-  const dragStat = useRef<number | null>(null);
-  const dragOverStat = useRef<number | null>(null);
 
-  const statsOptions = ["languages", "streak", "throphy", "activity", "stats"];
+  // Refs para drag-and-drop
+  const dragElement = useRef<number | null>(0);
+  const dragOverElement = useRef<number | null>(0);
 
   // Atualiza o backend
   const updateElementById = async (updatedList: IList | null) => {
@@ -35,7 +34,8 @@ export default function StatLayout({ selectedId, list }: StatLayoutProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedList),
       });
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.json();
       console.log("Element updated:", data);
       // opcional: sincronizar com a resposta do backend
@@ -45,20 +45,29 @@ export default function StatLayout({ selectedId, list }: StatLayoutProps) {
     }
   };
 
+ const handleHideElement = (index: number) => {
+  if (!localList) return;
+
+  const updatedElements = localList.elements.map((el, i) => {
+    const currentShow = !!el.show; // garante boolean primitivo (true/false)
+    return i === index ? { ...el, show: !currentShow } : el;
+  });
+
+  const updatedList: IList = { ...localList, elements: updatedElements };
+
+  setLocalList(updatedList);
+  updateElementById(updatedList);
+};
+
   // Troca elementos no array
   const handleSort = () => {
-    if (!localList) return; // Proteção contra null
-    if (dragStat.current === null || dragOverStat.current === null) return;
-
-    const statClone = [...localList.elements];
-    const temp = statClone[dragStat.current];
-    statClone[dragStat.current] = statClone[dragOverStat.current];
-    statClone[dragOverStat.current] = temp;
-
-    setLocalList({ ...localList, elements: statClone });
-    updateElementById({ ...localList, elements: statClone });
+    const elementClone = [...localList!.elements];
+    const temp = elementClone[dragElement.current!];
+    elementClone[dragElement.current!] = elementClone[dragOverElement.current!];
+    elementClone[dragOverElement.current!] = temp;
+    setLocalList({ ...localList!, elements: elementClone });
+    updateElementById({ ...localList!, elements: elementClone });
   };
-
   // Sincroniza localList com props
   useEffect(() => {
     setLocalList(list);
@@ -71,26 +80,27 @@ export default function StatLayout({ selectedId, list }: StatLayoutProps) {
 
   return (
     <div>
-      {statsOptions.map((stat, index) => (
-        <div
-          key={`${stat}-${index}`}
-          className="grid grid-cols-3 gap-4 relative flex space-x-3 border rounded p-2 cursor-grab hover:bg-gray-100"
-          draggable
-          onDragStart={() => (dragStat.current = index)}
-          onDragOver={(e) => e.preventDefault()}
-          onDrop={() => {
-            dragOverStat.current = index;
-            handleSort();
-          }}
-        >
-          <div className="col-span-2">
-            <p id={`icon${index}`}>{stat}</p>
+      {localList?.elements?.map((element, index) => {
+        return (
+          <div
+            key={element._id ?? element.value}
+            className=" grid grid-cols-3 gap-4 relative flex space-x-3 border rounded p-2"
+            draggable
+            onDragStart={() => (dragElement.current = index)}
+            onDragEnter={() => (dragOverElement.current = index)}
+            onDragEnd={handleSort}
+            onDragOver={(e) => e.preventDefault()}
+          >
+            <div className="col-span-2 ">
+              <p id={`icon${index}`}>{element.value}</p>
+            </div>
+            <div className="col-span-1">
+              {element.show ?  (<span onClick={()=>handleHideElement(index)}>Hide</span>):(<span onClick={()=>handleHideElement(index)}>Show</span>)}
+
+            </div>
           </div>
-          <div className="col-span-1">
-            <span>S</span>
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

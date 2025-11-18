@@ -4,6 +4,7 @@ export interface IElement {
   tagMarkDown: string;
   value: string;
   url?: string;
+  show: boolean;
 }
 
 export interface IList {
