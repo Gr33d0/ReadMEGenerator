@@ -72,27 +72,18 @@ export default function RightSide({ selectedId }: RightSideProps) {
   } else {
     return (
       <>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4">
           <div
-            className={activeTab === "icons" ? "font-bold" : ""}
-            onClick={() => setActiveTab("icons")}
+            className="icons font-bold" 
+          
           >
             Layout
           </div>
-          <div
-            className={activeTab === "edit" ? "font-bold" : ""}
-            onClick={() => setActiveTab("edit")}
-          >
-            Edit
-          </div>
-          {activeTab === "icons" ? (
-            <>
+
               <StatLayout selectedId={selectedId} list={list} />
-              {console.log("Rendering StatLayout", { selectedId, list })}
-            </>
-          ) : (
-            <Propwindow selectedId={selectedId} list={list} />
-          )}
+              
+
+         
         </div>
       </>
     );

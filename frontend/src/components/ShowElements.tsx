@@ -83,7 +83,7 @@ export default function ShowElements({ setSelectedId }: ShowElementsProps) {
                 .map((elem) => {
                   const v = elem.value;
                   if (!v) return "";
-                  const src = `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${v}/${v}-original.svg`;
+                  const src = elem.url;
                   return `<img src="${src}" alt="${v}" width="${height}" height="${height}" style="display:inline-block;" />`;
                 })
                 .join(" ");

@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { type } from "os";
 
 const ElementSchema = new mongoose.Schema({
   tagHtml: { type: String, required: true },
