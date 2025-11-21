@@ -22,42 +22,58 @@ export default function ReadMeView() {
     return () => window.removeEventListener("refreshShowElements", handler);
   }, []);
 
+  // ---- Gerar STRING final ----
+  const htmlString = lists
+    .map((list) => {
+      if (list.name === "text") {
+        return `<${list.elements[0].tagHtml} style="text-align:${list.align}">${list.elements[0].value}</${list.elements[0].tagHtml}>`;
+      }
+
+      if (list.name === "techs" || list.name === "socials") {
+        const tagInicial = `<div align="${list.align}">`;
+        const tagFinal = `</div>`;
+
+        // array de strings com cada img formatada
+        const imgs = list.elements.map(
+          (elem) =>
+            ` <img src="${elem.url}" alt="${elem.value}" width="${list.height}" height="${list.height}" />`
+        );
+
+        // junta tudo com quebras de linha
+        const content = [tagInicial, ...imgs, tagFinal].join("\n");
+
+        return content; // devolve TUDO com enter
+      }
+      else{
+        const tagInicial = `<div align="${list.align}">`;
+        const tagFinal = `</div>`;
+        const stats = list.elements
+        .map((elem) => {
+          if (!elem.show) return "";
+          const user = encodeURIComponent(list.user || "");
+          switch (elem.value) {
+            case "stats":
+              return `  <img src="https://github-readme-stats.vercel.app/api?username=${user}&theme=dracula"/>`;
+            case "languages":
+              return `  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=${user}&layout=compact&theme=dracula"/>`;
+            case "streak":
+              return `  <img src="https://github-readme-streak-stats.herokuapp.com/?user=${user}&theme=dracula"/>`;
+            case "throphy":
+              return `  <img src="https://github-profile-trophy.vercel.app/?username=${user}&theme=dracula&no-bg=true"/>`;
+            case "activity":
+              return `  <img src="https://github-readme-activity-graph.vercel.app/graph?username=${user}&theme=react&area=true"/>`;
+            default:
+              return "";
+          }
+        });
+        const content = [tagInicial, ...stats, tagFinal].join("\n");
+        return content
+      }
+
+    })
+    .join("\n"); // ENTER entre cada list
+
   return (
-    <div>
-      {lists.map((list) => {
-        if (list.name === "text") {
-          return `<${list.elements[0].tagHtml} style="text-align:${list.align}">${list.elements[0].value}</${list.elements[0].tagHtml}>`;
-        }
-        if (list.name === "techs" || list.name === "socials") {
-          const elems = list.elements;
-          elems.map((elem) => {
-            return `<img src="${elem.url}" alt="${elem.value}" width="${list.height}" height="${list.height}" style="display:inline-block;" />`;
-          });
-        } else {
-          const elems = list.elements;
-          elems.map((elem) => {
-            const v = elem.value;
-            if (!v) return "";
-            const user = encodeURIComponent(list.user || "");
-            if (elem.show == true) {
-              switch (v) {
-                case "stats":
-                  return `<img src="https://github-readme-stats.vercel.app/api?username=${user}&hide_title=false&show_icons=true&count_private=true&theme=dracula" height="150" alt="github stats" />`;
-                case "languages":
-                  return `<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=${user}&layout=compact&theme=dracula" height="150" alt="top languages" />`;
-                case "streak":
-                  return `<img src="https://github-readme-streak-stats.herokuapp.com/?user=${user}&theme=dracula" height="150" alt="streak" />`;
-                case "throphy":
-                  return `<img src="https://github-profile-trophy.vercel.app/?username=${user}&theme=dracula&no-bg=true" height="150" alt="trophy" />`;
-                case "activity":
-                  return `<img src="https://github-readme-activity-graph.vercel.app/graph?username=${user}&theme=react&area=true" height="150" alt="activity graph" />`;
-                default:
-                  return "";
-              }
-            }
-          });
-        }
-      })}
-    </div>
+    <pre style={{ whiteSpace: "pre-wrap", fontSize: "10px" }}>{htmlString}</pre>
   );
 }

@@ -8,12 +8,27 @@ interface StatLayoutProps {
 
 export default function StatLayout({ selectedId, list }: StatLayoutProps) {
   const [localList, setLocalList] = useState<IList | null>(null);
-
-
+  const input = document.querySelector("input");
+  
   // Refs para drag-and-drop
   const dragElement = useRef<number | null>(0);
   const dragOverElement = useRef<number | null>(0);
-
+  const ensureHasElement = (maybeList: IList | null): IList | null => {
+    if (!maybeList) return null;
+    const elements =
+      Array.isArray(maybeList.elements) && maybeList.elements.length > 0
+        ? maybeList.elements
+        : [
+            {
+              _id: (maybeList as any)?._id ?? "local-0",
+              tagHtml: "img",
+              tagMarkDown: "![alt](src)",
+              value: "languages",
+              url: "",
+            },
+          ];
+    return { ...maybeList, elements };
+  };
   // Atualiza o backend
   const updateElementById = async (updatedList: IList | null) => {
     if (!selectedId) {
@@ -70,9 +85,31 @@ export default function StatLayout({ selectedId, list }: StatLayoutProps) {
     updateElementById({ ...localList!, elements: elementClone });
     window.dispatchEvent(new CustomEvent("refreshShowElements"));
   };
+
+  const handleAlignChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newAlign = e.target.value as IList["align"];
+    const base = ensureHasElement(localList) ?? ({} as IList);
+    const newList: IList = { ...base, align: newAlign };
+    setLocalList(newList);
+    updateElementById(newList);
+    window.dispatchEvent(new CustomEvent("refreshShowElements"));
+  };
+  const handleUserChange = (newValue: string)=>{
+        const base = ensureHasElement(localList) ?? ({} as IList);
+    const updatedList: IList = {
+      ...base,
+      user: newValue,
+    };
+    setLocalList(updatedList);
+    updateElementById(updatedList);
+    window.dispatchEvent(new CustomEvent("refreshShowElements"));
+  }
+  
+  
   // Sincroniza localList com props
   useEffect(() => {
     setLocalList(list);
+    
   }, [list, selectedId]);
 
   // Renderização segura
@@ -81,6 +118,27 @@ export default function StatLayout({ selectedId, list }: StatLayoutProps) {
   }
 
   return (
+    <>
+    <div>
+        <h4>Align</h4>
+      <select
+        value={localList?.align ?? ""}
+        onChange={handleAlignChange}
+        id="align"
+        disabled={!localList}
+      >
+        <option value="">-- select --</option>
+        <option value="right">right</option>
+        <option value="center">center</option>
+        <option value="left">left</option>
+      </select>
+
+    </div>
+    <div>
+      <h4>User</h4>
+      <textarea className="border resize-none"  onChange={(e)=>handleUserChange(e.target.value)}></textarea>
+
+    </div>
     <div>
       {localList?.elements?.map((element, index) => {
         return (
@@ -104,5 +162,6 @@ export default function StatLayout({ selectedId, list }: StatLayoutProps) {
         );
       })}
     </div>
+    </>
   );
 }
