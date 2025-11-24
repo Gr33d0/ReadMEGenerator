@@ -22,3 +22,18 @@ Stack:
 
 <img width="1810" height="908" alt="inspiration" src="https://github.com/user-attachments/assets/490ebb30-9edc-4ccb-b3b9-8d7d97a89283" />
 
+Results:
+<ul>
+  <li>Add Elements</li>
+  <li>Edit Elements</li>
+  <li>Delete Elements</li>
+  <li>Change position of elements (just of lists)</li>
+  <li>Generate ReadMe</li>
+</ul>
+Preview
+<img width="1919" height="957" alt="image" src="https://github.com/user-attachments/assets/022a3b44-fc02-4cd3-968c-e09e611eb7e9" />
+Generated Readme
+<img width="1919" height="506" alt="image" src="https://github.com/user-attachments/assets/8915b282-c0ee-436f-884c-15794a2cb819" />
+
+
+
