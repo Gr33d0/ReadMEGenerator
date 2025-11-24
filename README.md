@@ -20,4 +20,5 @@ Stack:
   <li>@types - Provides types for JavaScript libraries</li>
 </ul>
 
-![alt text](inspiration.png)
+<img width="1810" height="908" alt="inspiration" src="https://github.com/user-attachments/assets/490ebb30-9edc-4ccb-b3b9-8d7d97a89283" />
+
